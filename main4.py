@@ -246,8 +246,8 @@ def konfusionsmatrix_zeichnen(richtig_positiv, falsch_negativ, falsch_positiv, r
         [falsch_negativ, richtig_positiv]
     ])
 
-    anzeige = ConfusionMatrixDisplay(confusion_matrix=matrix, display_labels=["negativ", "positiv"])
-    anzeige.plot(cmap="Blues")
+    cm = ConfusionMatrixDisplay(confusion_matrix=matrix, display_labels=["negativ", "positiv"])
+    cm.plot(cmap="Blues")
     plt.title("Konfusionsmatrix")
     plt.show()
 
