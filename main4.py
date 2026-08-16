@@ -3,7 +3,7 @@
 
 # Wir trainieren ein einfaches Modell, das Texte als positiv oder negativ klassifiziert.
 
-import numpy as np  # Dieses Paket benötigen wir um Vektoren und Skalarmultiplikationen durchführen zu können
+import numpy as np  # Paket gebraucht für Vektoren-, Matrizen- und Skalarmultiplikationen durchführen zu können
 import pandas as pd  # Dieses Paket benötigen wir für die Extraktion von Daten aus Datentabellen wie Excel
 import matplotlib.pyplot as plt # Fehlerkurve
 from sklearn.metrics import ConfusionMatrixDisplay # Konfusionmatrix
@@ -40,7 +40,7 @@ def text_tokenisieren(text):
 # um zu verhindern, dass wir zu lange unnötige dimensionen erhalten, verkürzen wir das vokabular sinnvoll
 # wörter die unter 2 mal vorkommen, werden nichts ins vokabular eingetragen
 def vokabular_erstellen(alle_texte):
-    mindest_anzahl = 1
+    mindest_anzahl = 2
     dokumentzahl = {}
 
     for text in alle_texte:
@@ -61,7 +61,7 @@ def vokabular_erstellen(alle_texte):
             vokabular[wort] = index
 
     dimensionen = len(vokabular)
-    # return len(vokabular) # unser vokabular enthält 269 wörter (269 dimensionen)
+    # bei mindest_anzahl = 2 enthält unser vokabular 269 wörter (269 dimensionen)
     return vokabular, dimensionen
 
 def sigmoid(z):
@@ -71,7 +71,7 @@ def sigmoid(z):
 
 def vorhersagen_berechnen(x, w, bias):
 
-    z = np.dot(x, w) + bias # führt die Skalarmultiplikation durch
+    z = np.dot(x, w) + bias # führt die skalarmultiplikation durch
 
     y_hat = sigmoid(z)
 
@@ -79,7 +79,7 @@ def vorhersagen_berechnen(x, w, bias):
 
 
 def log_loss(richtige_labels, vorhersagen):
-    # Epsiolin ist eine kleine Zahl, die verhindert, dass ln(0) berechnet wird.
+    # epsiolin ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
     epsilon = 0.000000001
     # L = -(y * ln(y_hat) + (1-y) * ln(1-y_hat))
 
@@ -118,10 +118,13 @@ def dokument_begriffsmatrix(alle_texte, vokabular):
         index = vokabular[wort]
         spalten[index] = wort
 
-    tabelle = pd.DataFrame(matrix, columns=spalten) # .to_string() #gefährlich
+
+    tabelle = pd.DataFrame(matrix, columns=spalten)
+    pd.set_option("display.max_rows", None)
 
     # return matrix
-    return tabelle
+    # wir transponieren hier die matrix.
+    return tabelle.T # .to_string() #gefährlich
 
 def gradient_weight(x, richtige_labels, vorhersage):
     vorhersageabweichung = vorhersage - richtige_labels # y hut - y
@@ -298,6 +301,10 @@ for text in train_texte:
 x_test = []
 for text in test_texte:
     x_test.append(text_zu_binärvektor(text, vokabular))
+
+# 3.5 dokument_begriffsmatrix visualisieren
+matrix = dokument_begriffsmatrix(train_texte, vokabular)
+print(matrix)
 
 # 4. modell trainieren
 gelernte_gewichte, gelernter_bias, verlauf_loss = training(x_train, train_labels)
