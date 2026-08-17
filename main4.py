@@ -274,7 +274,8 @@ def text_klassifizieren(neuer_text, vokabular, gelernte_gewichte, gelernter_bias
 
     return klasse, wahrscheinlichkeit
 
-#---------------------Ausführung---------------------
+#---------------------AUSFÜHRUNG---------------------
+# jetzt führen wir die funktionen aus
 
 # 1. trainings- und testdaten aufteilen
 
