@@ -12,6 +12,7 @@ np.random.seed(12)
 
 # relativer pfad
 dateipfad = "sentiment_dataset.xlsx"
+
 # absoluter pfad
 # dateipfad = C:\Users\Nutzername\Documents\sentiment_dataset.xlsx
 
