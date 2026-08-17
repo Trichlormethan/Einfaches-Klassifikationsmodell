@@ -12,7 +12,6 @@ np.random.seed(12)
 
 # relativer pfad
 dateipfad = "sentiment_dataset.xlsx"
-
 # absoluter pfad
 # dateipfad = C:\Users\Nutzername\Documents\sentiment_dataset.xlsx
 
@@ -190,8 +189,8 @@ def training(x_traininings_texte, y_trainings_label):
             bias = bias - (alpha * grad_b)
 
         # loss berechnungen durchführen, dafür brauchen wir die trainingstexte als matrix
-        y_hut_alle = vorhersagen_berechnen(x_matrix, w, bias)  # ergebnis: vektor mit 400 werten
-        aktueller_loss = log_loss(y_trainings_label, y_hut_alle)
+        y_hut_alle = vorhersagen_berechnen(x_matrix, w, bias)  # ergebnis: vektor mit 400 score-werten [0-1]
+        aktueller_loss = log_loss(y_trainings_label, y_hut_alle) # vektor zu skalar umwandeln
 
         verlauf_loss.append(aktueller_loss)
 
