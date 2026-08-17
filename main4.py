@@ -73,15 +73,15 @@ def vorhersagen_berechnen(x, w, bias):
 
     z = np.dot(x, w) + bias # führt die skalarmultiplikation durch
 
-    y_hat = sigmoid(z)
+    y_hut = sigmoid(z)
 
-    return y_hat
+    return y_hut
 
 
 def log_loss(richtige_labels, vorhersagen):
     # epsiolin ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
     epsilon = 0.000000001
-    # L = -(y * ln(y_hat) + (1-y) * ln(1-y_hat))
+    # L = -(y * ln(y_hut) + (1-y) * ln(1-y_hut))
 
     positiver_teil = (richtige_labels * np.log(vorhersagen + epsilon))
     negativer_teil = ((1 - richtige_labels) * np.log(1 - vorhersagen + epsilon))
@@ -189,8 +189,8 @@ def training(x_traininings_texte, y_trainings_label):
             bias = bias - (alpha * grad_b)
 
         # loss berechnungen durchführen, dafür brauchen wir die trainingstexte als matrix
-        y_hat_alle = vorhersagen_berechnen(x_matrix, w, bias)  # ergebnis: vektor mit 400 werten
-        aktueller_loss = log_loss(y_trainings_label, y_hat_alle)
+        y_hut_alle = vorhersagen_berechnen(x_matrix, w, bias)  # ergebnis: vektor mit 400 werten
+        aktueller_loss = log_loss(y_trainings_label, y_hut_alle)
 
         verlauf_loss.append(aktueller_loss)
 
