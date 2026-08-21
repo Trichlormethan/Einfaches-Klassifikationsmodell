@@ -167,7 +167,7 @@ def training(x_traininings_texte, y_trainings_label):
 
     # die trainingstexte sind eine liste von binärvektoren und trainingslabel ein array mit den passenden labels
     anzahl_wörter = len(x_traininings_texte[0])
-    w = np.zeros(anzahl_wörter)
+    w = np.zeros(anzahl_wörter, dtype=float)
     bias = 0.0
     x_matrix = np.array(x_traininings_texte)
     verlauf_loss = [] # damit wir den fehler speichern um für später die kurve illustrieren zu können
@@ -275,7 +275,6 @@ def text_klassifizieren(neuer_text, vokabular, gelernte_gewichte, gelernter_bias
     return klasse, wahrscheinlichkeit
 
 #---------------------AUSFÜHRUNG---------------------
-# jetzt führen wir die funktionen aus
 
 # 1. trainings- und testdaten aufteilen
 
@@ -318,7 +317,6 @@ x_test_matrix = np.array(x_test)
 vorhersagen_test = vorhersagen_berechnen(x_test_matrix, gelernte_gewichte, gelernter_bias)
 
 
-
 finale_genauigkeit = genauigkeit(vorhersagen_test, test_labels)
 print(f"Testgenauigkeit: {finale_genauigkeit:.2%}")
 
@@ -337,8 +335,13 @@ while programm_läuft:
 
     if neuer_text.lower() == "q":
         programm_läuft = False
+    elif neuer_text.lower() == "vokabular":
+        print(vokabular)
+    elif neuer_text.lower() == "gewicht": #f"gewicht {neuer_text.lower()}":
+        print(gelernte_gewichte)
+        #print(len(gelernte_gewichte))
+    elif neuer_text.lower() == "bias": print(gelernter_bias)
     else:
-
         klasse, wahrscheinlichkeit = text_klassifizieren(neuer_text, vokabular, gelernte_gewichte, gelernter_bias)
         print(f"Klasse: {klasse} (Wahrscheinlichkeit: {wahrscheinlichkeit:.2f})")
 
