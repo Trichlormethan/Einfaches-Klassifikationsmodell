@@ -37,8 +37,6 @@ def text_tokenisieren(text):
 
     return tokens
 
-# um zu verhindern, dass wir zu lange unnötige dimensionen erhalten, verkürzen wir das vokabular sinnvoll
-# wörter die unter 2 mal vorkommen, werden nichts ins vokabular eingetragen
 def vokabular_erstellen(alle_texte):
     mindest_anzahl = 1
     dokumentzahl = {}
