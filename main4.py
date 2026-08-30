@@ -40,7 +40,7 @@ def text_tokenisieren(text):
 # um zu verhindern, dass wir zu lange unnötige dimensionen erhalten, verkürzen wir das vokabular sinnvoll
 # wörter die unter 2 mal vorkommen, werden nichts ins vokabular eingetragen
 def vokabular_erstellen(alle_texte):
-    mindest_anzahl = 2
+    mindest_anzahl = 1
     dokumentzahl = {}
 
     for text in alle_texte:
@@ -258,7 +258,7 @@ def konfusionsmatrix_zeichnen(richtig_positiv, falsch_negativ, falsch_positiv, r
 def fehlerkurve(verlauf_loss):
     plt.plot(verlauf_loss)
     plt.xlabel("Epoche")
-    plt.ylabel("Log-Loss")
+    plt.ylabel("Kosten J")
     plt.title("Fehlerverlauf beim Training")
     plt.show()
 
@@ -321,6 +321,29 @@ finale_genauigkeit = genauigkeit(vorhersagen_test, test_labels)
 print(f"Testgenauigkeit: {finale_genauigkeit:.2%}")
 
 richtig_positiv, falsch_negativ, falsch_positiv, richtig_negativ = konfusionsmatrix(vorhersagen_test, test_labels)
+
+# 5.5 falsche texte sammeln
+
+falsch_klassifiziert = []
+
+for i in range(len(test_texte)):
+    if vorhersagen_test[i] >= 0.5:
+        vorhergesagte_klasse = 1
+    else:
+        vorhergesagte_klasse = 0
+
+    if vorhergesagte_klasse != test_labels[i]:
+        falsch_klassifiziert.append((test_texte[i], test_labels[i]))
+
+
+print(f"Anzahl falsch klassifizierter Texte: {len(falsch_klassifiziert)}")
+for text, echtes_label in falsch_klassifiziert:
+    if echtes_label == 1:
+        richtige_klasse = "positiv"
+    else:
+        richtige_klasse = "negativ"
+    print(f"[{text}] war inkorrekt klassifizert  |  richtig wäre {richtige_klasse}")
+
 
 # 6. widgets anzeigen
 fehlerkurve(verlauf_loss)
