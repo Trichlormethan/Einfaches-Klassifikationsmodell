@@ -59,7 +59,7 @@ def vokabular_erstellen(alle_texte):
             vokabular[wort] = index
 
     dimensionen = len(vokabular)
-    # bei mindest_anzahl = 2 enthält unser vokabular 269 wörter (269 dimensionen)
+    # bei mindest_anzahl = 1 enthält unser vokabular 594 wörter (594 dimensionen)
     return vokabular, dimensionen
 
 def sigmoid(z):
@@ -77,7 +77,7 @@ def vorhersagen_berechnen(x, w, bias):
 
 
 def log_loss(richtige_labels, vorhersagen):
-    # epsiolin ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
+    # epsilon ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
     epsilon = 0.000000001
     # L = -(y * ln(y_hut) + (1-y) * ln(1-y_hut))
 
@@ -110,7 +110,7 @@ def dokument_begriffsmatrix(alle_texte, vokabular):
 
     matrix = np.array(alle_vektoren) # jetzt haben wir alle vektoren nacheinander.
 
-    spalten = [None] * len(vokabular) # spalten als liste muss anscheinend so geschrieben werden
+    spalten = [None] * len(vokabular) 
 
     for wort in vokabular:
         index = vokabular[wort]
