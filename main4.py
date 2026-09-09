@@ -49,7 +49,7 @@ def vokabular_erstellen(alle_texte):
             if wort not in dokumentzahl:
                 dokumentzahl[wort] = 0
 
-            dokumentzahl[wort] += 1
+            dokumentzahl[wort] = 1
 
     vokabular = {}
 
