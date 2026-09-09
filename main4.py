@@ -37,6 +37,8 @@ def text_tokenisieren(text):
 
     return tokens
 
+# um zu verhindern, dass wir zu lange unnötige dimensionen erhalten, verkürzen wir das vokabular sinnvoll
+# wörter die unter 2 mal vorkommen, werden nichts ins vokabular eingetragen
 def vokabular_erstellen(alle_texte):
     mindest_anzahl = 1
     dokumentzahl = {}
@@ -59,7 +61,7 @@ def vokabular_erstellen(alle_texte):
             vokabular[wort] = index
 
     dimensionen = len(vokabular)
-    # bei mindest_anzahl = 1 enthält unser vokabular 594 wörter (594 dimensionen)
+    # bei mindest_anzahl = 2 enthält unser vokabular 269 wörter (269 dimensionen)
     return vokabular, dimensionen
 
 def sigmoid(z):
@@ -77,7 +79,7 @@ def vorhersagen_berechnen(x, w, bias):
 
 
 def log_loss(richtige_labels, vorhersagen):
-    # epsilon ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
+    # epsiolin ist eine kleine zahl, die verhindert, dass ln(0) berechnet wird (=undefiniert)
     epsilon = 0.000000001
     # L = -(y * ln(y_hut) + (1-y) * ln(1-y_hut))
 
@@ -110,7 +112,7 @@ def dokument_begriffsmatrix(alle_texte, vokabular):
 
     matrix = np.array(alle_vektoren) # jetzt haben wir alle vektoren nacheinander.
 
-    spalten = [None] * len(vokabular) 
+    spalten = [None] * len(vokabular) # spalten als liste muss anscheinend so geschrieben werden
 
     for wort in vokabular:
         index = vokabular[wort]
@@ -135,13 +137,13 @@ def gradient_bias(richtige_labels, vorhersage):
 
 
 def train_test_split(texte, labels): # diese funktion ist für den 80/20 split
-    test_anteil = 100
+    test_anteil = 0.2 # 20%
     anzahl = len(texte) # 500
 
     indexe = np.arange(anzahl)
     np.random.shuffle(indexe)     # zufällig mischen, damit die aufteilung fair ist
 
-    grenze = int(anzahl - test_anteil)   # grenze legen wir bei 400 fest
+    grenze = int(anzahl - (anzahl * test_anteil))   # grenze legen wir bei 400 fest
 
     train_indexe = indexe[0:grenze]
     test_indexe = indexe[grenze:]
@@ -160,8 +162,8 @@ def train_test_split(texte, labels): # diese funktion ist für den 80/20 split
     return train_texte, test_texte, train_labels, test_labels
 
 def training(x_traininings_texte, y_trainings_label):
-    alpha = 0.25
-    epochen = 250
+    alpha = 0.1
+    epochen = 100
 
     # die trainingstexte sind eine liste von binärvektoren und trainingslabel ein array mit den passenden labels
     anzahl_wörter = len(x_traininings_texte[0])
@@ -194,6 +196,7 @@ def training(x_traininings_texte, y_trainings_label):
 
         if epoche % 10 == 0:
             print(f"Epoche {epoche}: Fehler = {aktueller_loss:.4f}")
+
 
     return w, bias, verlauf_loss
 
